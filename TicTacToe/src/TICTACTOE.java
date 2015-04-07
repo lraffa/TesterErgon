@@ -14,15 +14,18 @@ public class TICTACTOE extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private static int spieler;
-	private static JButton button1;
-	private static JButton button2;
-	private static JButton button3;
-	private static JButton button4;
-	private static JButton button5;
-	private static JButton button6;
-	private static JButton button7;
-	private static JButton button8;
-	private static JButton button9;
+	private static int runde;
+	private static int punkteX;
+	private static int punkteO;
+	private static JButton button1 = new JButton("");
+	private static JButton button2 = new JButton("");
+	private static JButton button3 = new JButton("");
+	private static JButton button4 = new JButton("");
+	private static JButton button5 = new JButton("");
+	private static JButton button6 = new JButton("");
+	private static JButton button7 = new JButton("");
+	private static JButton button8 = new JButton("");
+	private static JButton button9 = new JButton("");
 	private static String x1;
 	private static String x2;
 	private static String x3;
@@ -32,70 +35,82 @@ public class TICTACTOE extends JFrame implements ActionListener {
 	private static String x7;
 	private static String x8;
 	private static String x9;
+	private static JTextField textX = new JTextField("PUNKTE X: 0");
+	private static JTextField text = new JTextField(" Punktestand ");
+	private static JTextField textO = new JTextField("PUNKTE O: 0");;
+	
 
 	// Grafische Darstellung der Buttons
-	public void setColor(JButton y) {
+	public void setColor(JButton y, JPanel x) {
 		Font f = new Font(Font.SERIF, Font.PLAIN, 100);
 		y.setBorder(BorderFactory.createLineBorder(Color.black, 5));
 		y.setFont(f);
 		y.setBackground(Color.white);
+		y.addActionListener(this);
+		x.add(y);
+	}
+	
+	public void setTextField(JTextField x){
+		
+		x.setBackground(Color.white);
+		x.setForeground(Color.black);	
 	}
 
 	public TICTACTOE() {
-
-		button1 = new JButton("");
-		button2 = new JButton("");
-		button3 = new JButton("");
-		button4 = new JButton("");
-		button5 = new JButton("");
-		button6 = new JButton("");
-		button7 = new JButton("");
-		button8 = new JButton("");
-		button9 = new JButton("");
-
+	
+		
 		JPanel x = new JPanel();
-		x.setLayout(new GridLayout(3, 3));
+		x.setLayout(new GridLayout(4, 3));
 
 		this.setTitle("TIC TAC TOE  --  Spieler O beginnt");
-		this.setSize(800, 800);
+		this.setSize(750, 750);
 		this.setLocation(300, 100);
 		this.add(x);
 		this.setVisible(true);
-		x.add(button1);
-		x.add(button2);
-		x.add(button3);
-		x.add(button4);
-		x.add(button5);
-		x.add(button6);
-		x.add(button7);
-		x.add(button8);
-		x.add(button9);
+		
+		
+		
+		x.add(textX);
+		x.add(text);
+		x.add(textO);
+		
+		Font ft = new Font(Font.SERIF, Font.PLAIN, 20);
+		Font fx = new Font(Font.SERIF, Font.PLAIN, 30);
+		Font fo = new Font(Font.SERIF, Font.PLAIN, 30);
+		text.setFont(ft);
+		textX.setFont(fx);
+		textO.setFont(fo);
+		
+		text.setHorizontalAlignment(JTextField.CENTER);
+		
+		setTextField(text);
+		setTextField(textO);
+		setTextField(textX);
+		
+		
 
-		setColor(button1);
-		setColor(button2);
-		setColor(button3);
-		setColor(button4);
-		setColor(button5);
-		setColor(button6);
-		setColor(button7);
-		setColor(button8);
-		setColor(button9);
-
-		button1.addActionListener(this);
-		button2.addActionListener(this);
-		button3.addActionListener(this);
-		button4.addActionListener(this);
-		button5.addActionListener(this);
-		button6.addActionListener(this);
-		button7.addActionListener(this);
-		button8.addActionListener(this);
-		button9.addActionListener(this);
+		setColor(button1, x);
+		setColor(button2, x);
+		setColor(button3, x);
+		setColor(button4, x);
+		setColor(button5, x);
+		setColor(button6, x);
+		setColor(button7, x);
+		setColor(button8, x);
+		setColor(button9, x);
+		
+		text.setEditable(false);
+		textX.setEditable(false);
+		textO.setEditable(false);
+		
+		
 
 	}
 
 	public static void main(String[] args) {
 
 		TICTACTOE x = new TICTACTOE();
+		
 		x.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
@@ -126,9 +141,13 @@ public class TICTACTOE extends JFrame implements ActionListener {
 	}
 
 	public void gewinnerTest() {
+		
+		
 		if (spieler % 11 == 0) {
 			this.setTitle("Unentschieden -- Spieler X ist an der Reihe!");
-			
+			runde++;
+			String runden = "Runde:  "+runde;
+			text.setText("Punktestand nach "+runden);
 			clearButton();
 		} else {
 
@@ -139,11 +158,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x1.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 				}
 			}
@@ -155,11 +186,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x1.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 
 				}
@@ -171,11 +214,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x1.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 				}
 			}
@@ -185,11 +240,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x2.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 				}
 			}
@@ -199,11 +266,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x3.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 				}
 			}
@@ -213,11 +292,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x4.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 				}
 			}
@@ -227,11 +318,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x7.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 				}
 			}
@@ -241,11 +344,23 @@ public class TICTACTOE extends JFrame implements ActionListener {
 						this.setTitle("Spieler O hat gewonnen! Spieler X ist an der Reihe");
 						clearButton();
 						spieler = 1;
+						runde++;
+						punkteO++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteO;
+						text.setText("Punktestand nach "+runden);
+						textO.setText("PUNKTE O: "+punkte);
 					}
 					if (x3.contains("X")) {
 						this.setTitle("Spieler X hat gewonnen! Spieler O ist an der Reihe");
 						clearButton();
 						spieler = 2;
+						runde++;
+						punkteX++;
+						String runden = "Runde:  "+runde;
+						String punkte = "" +punkteX;
+						text.setText("Punktestand nach "+runden);
+						textX.setText("PUNKTE X: "+punkte);
 					}
 				}
 			}
@@ -255,6 +370,8 @@ public class TICTACTOE extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent ae) {
 		spieler++;
+		
+		
 		this.setTitle("TIC TAC TOE");
 
 		if (ae.getSource() == TICTACTOE.button1) {
